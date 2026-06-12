@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DocuMind — Frontend
 
-## Getting Started
+A sleek, modern chat interface for **DocuMind**, a Retrieval-Augmented Generation (RAG) chatbot. Upload a PDF, then ask questions answered straight from your document — with cited sources.
 
-First, run the development server:
+Built with Next.js and a glassmorphism UI that supports both light and dark themes.
+
+> Backend repo: a FastAPI + LangChain service. This app reads its URL from `NEXT_PUBLIC_API_URL`.
+
+---
+
+## Features
+
+- **Drag-and-drop PDF upload** with live indexing status.
+- **Conversational chat** with Markdown-rendered, source-cited answers.
+- **Light & dark themes** — royal-sky blue (`#0CAFFF`) in light mode, seafoam green in dark mode — with a toggle, system-preference detection, and no flash on load.
+- **Glassmorphism design** — animated gradient backdrop, smooth message animations, typing indicator, and polished empty/loading/error states.
+- **Per-visitor sessions** — sends a persistent `X-Session-Id` so each visitor's document stays isolated on the backend.
+- **Suggested prompts**, auto-scroll, auto-resizing input, and Enter-to-send.
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) (App Router) + React
+- TypeScript
+- Tailwind CSS v4
+- `react-markdown` for rendering answers
+
+---
+
+## Local development
+
+Requires Node.js 18+ and the [backend](#) running locally.
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure the API URL
+cp .env.example .env.local       # defaults to http://127.0.0.1:8000
+
+# 3. Run the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable              | Required | Description                                             |
+| --------------------- | -------- | ------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL` | Yes      | Base URL of the backend API (no trailing slash).        |
 
-## Learn More
+## Deployment (Vercel)
 
-To learn more about Next.js, take a look at the following resources:
+1. Push this repo to GitHub.
+2. On [Vercel](https://vercel.com): **Add New → Project** and import the repo.
+3. Add the environment variable `NEXT_PUBLIC_API_URL`, set to your deployed backend URL (e.g. `https://your-backend.up.railway.app`).
+4. Deploy. Vercel auto-detects Next.js — no extra config needed.
+5. Finally, set the backend's `ALLOWED_ORIGINS` to your Vercel URL to lock down CORS.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+  layout.tsx     # Root layout + theme bootstrap (no-flash)
+  page.tsx       # Chat UI, upload, theme toggle, session handling
+  globals.css    # Theme tokens, glassmorphism, animations, markdown styles
+components/
+  Message.tsx    # Chat bubble (user / assistant) with Markdown rendering
+```
