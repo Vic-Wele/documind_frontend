@@ -1,3 +1,5 @@
+https://documind-frontend-qtsusar1x-vic-wele-projects.vercel.app/
+
 # DocuMind — Frontend
 
 A sleek, modern chat interface for **DocuMind**, a Retrieval-Augmented Generation (RAG) chatbot. Upload a PDF, then ask questions answered straight from your document — with cited sources.
